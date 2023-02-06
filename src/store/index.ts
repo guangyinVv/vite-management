@@ -2,6 +2,7 @@ import { createStore, Store } from 'vuex'
 import { MenuType } from '@/api'
 // 数据持久化插件
 import createPersistedState from 'vuex-persistedstate'
+import { getAdminInfo } from '@/api/index'
 type menusType = null | MenuType[]
 const store = createStore({
   state() {
@@ -40,7 +41,21 @@ const store = createStore({
     }
   },
   // 可同步可异步
-  actions: {},
+  actions: {
+    getAdminInfo(store) {
+      return new Promise((reslove, reject) => {
+        getAdminInfo().then(({ data: adminInfo }) => {
+          if (adminInfo.code === 200) {
+            // 将menu信息存到vuex中
+            store.commit('updateMenus', adminInfo.data.menus)
+            reslove('')
+          } else {
+            reject(new Error('获取信息失败'))
+          }
+        })
+      })
+    }
+  },
   modules: {},
   plugins: [
     createPersistedState({

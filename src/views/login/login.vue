@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { validateUsername, validatePassword } from '@/validate/validate'
-import { adminLogin, getAdminInfo } from '@/api'
+import { adminLogin } from '@/api'
 import Cookie from 'js-cookie'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -42,12 +42,14 @@ const submit = async () => {
       // 存储用户cookie
       Cookie.set('token', res.data.tokenHead + ' ' + res.data.token, { expires: 1 })
       // 获取用户信息
-      const { data: adminInfo } = await getAdminInfo()
-      if (adminInfo.code === 200) {
-        // 先将menu信息存到vuex中
-        store.commit('updateMenus', adminInfo.data.menus)
-        router.push('/home')
-      }
+      store
+        .dispatch('getAdminInfo')
+        .then(() => {
+          router.push('/home')
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     } else {
       alert('密码输入错误')
     }

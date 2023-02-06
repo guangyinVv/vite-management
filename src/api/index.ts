@@ -1,5 +1,6 @@
 // 登录功能的相关接口API
 import request from '@/utils/request'
+import { anyObject } from '@/vite-env'
 // 统一泛型
 interface ManageResult<T> {
   data: {
@@ -35,7 +36,12 @@ export interface MenuType {
 interface AdminInfoRes {
   menus: MenuType[]
 }
-
+// 用户列表数据接口的参数类型
+interface AdminListParams {
+  keyword: string
+  pageNum: number
+  pageSize: number
+}
 /**
  * 登录接口
  * @param data
@@ -44,6 +50,28 @@ interface AdminInfoRes {
 export const adminLogin = (data: LoginData): PromiseRes<LoginRes> => {
   return request.post('/admin/login', data)
 }
+/**
+ * 登录后获取的菜单数据
+ * @returns
+ */
 export const getAdminInfo = (): PromiseRes<AdminInfoRes> => {
   return request.get('/admin/info')
+}
+// 用户列表数据类型
+export interface TableType {
+  id: number
+  username: string
+  nickName: string
+  email: string
+  createTime: string
+  loginTime: string
+  status: 1 | 0
+}
+/**
+ * 获取用户列表数据
+ * @param data
+ * @returns
+ */
+export const getAdminLists = (data: AdminListParams): PromiseRes<{ list: TableType[] }> => {
+  return request('/admin/list', { params: data })
 }

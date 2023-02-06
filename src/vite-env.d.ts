@@ -6,3 +6,6 @@ declare module '*.vue' {
 
   export default vueComponent
 }
+export interface anyObject {
+  [key: string]: any
+}

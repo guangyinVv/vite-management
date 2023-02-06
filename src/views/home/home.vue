@@ -4,7 +4,9 @@
     <div class="home-menu">
       <Menu />
     </div>
-    <div class="home-content">内容</div>
+    <div class="home-content nui-scroll">
+      <RouterView />
+    </div>
   </div>
 </template>
 
@@ -37,5 +39,6 @@ import Menu from './components/menu.vue'
   left: 250px;
   bottom: 0;
   background-color: cyan;
+  overflow: auto;
 }
 </style>
