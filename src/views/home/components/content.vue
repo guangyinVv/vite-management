@@ -1,7 +1,20 @@
+<!-- 首页 -->
 <template>
-  <div class="">首页内容</div>
+  <Pie :data="salePie" />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { getAdminStat } from '@/api'
+import { anyObject } from '@/vite-env'
+import { Ref, ref } from 'vue'
+import Pie from './pie.vue'
+const salePie: Ref<anyObject[]> = ref([])
+const saleMap: Ref<anyObject[]> = ref([])
+getAdminStat().then(({ data: { data } }) => {
+  salePie.value = data.salePie
+  saleMap.value = data.saleMap
+  console.log(data)
+})
+</script>
 
 <style lang="less" scoped></style>

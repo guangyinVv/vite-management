@@ -1,15 +1,16 @@
 // 登录功能的相关接口API
 import request from '@/utils/request'
 import { anyObject } from '@/vite-env'
+import { stringify } from 'querystring'
 // 统一泛型
-interface ManageResult<T> {
+interface ManageResult<T = {}> {
   data: {
     code: number
     data: T
     message: string
   }
 }
-type PromiseRes<T> = Promise<ManageResult<T>>
+type PromiseRes<T = {}> = Promise<ManageResult<T>>
 // 登录需要的账号密码
 interface LoginData {
   username: string
@@ -66,6 +67,8 @@ export interface TableType {
   createTime: string
   loginTime: string
   status: 1 | 0
+  password: string
+  note: string
 }
 /**
  * 获取用户列表数据
@@ -74,4 +77,45 @@ export interface TableType {
  */
 export const getAdminLists = (data: AdminListParams): PromiseRes<{ list: TableType[] }> => {
   return request('/admin/list', { params: data })
+}
+/**
+// 更新用户列表界面的用户信息
+ * 
+ * @param data 
+ * @returns 
+ */
+export const updateAdmin = (data: TableType): PromiseRes => {
+  return request.post('/admin/update/' + data.id, data)
+}
+// 角色数据的类型
+export interface RoleListType {
+  id: number
+  name: string
+}
+/**
+ * 获取所有角色（管理员，超级管理员等）数据
+ * @returns
+ */
+export const getAllRoleList = (): PromiseRes<RoleListType[]> => {
+  return request.get('/role/listAll')
+}
+/**
+ *
+ * @param id 根据id获取用户当前的用户类型
+ * @returns
+ */
+export const getAdminRoleById = (id: number): PromiseRes<RoleListType[]> => {
+  return request.get('/admin/role/' + id)
+}
+/**
+ * 更新用户类型
+ * @param adminId
+ * @param roleIds
+ * @returns
+ */
+export const updateAdminRole = (adminId: number, roleIds: number[]): PromiseRes => {
+  return request.post('/admin/role/update', null, { params: { adminId, roleIds: roleIds.join(',') } })
+}
+export const getAdminStat = (): PromiseRes<{ saleMap: anyObject[]; salePie: anyObject[] }> => {
+  return request.get('http://kumanxuan1.f3322.net:8360/admin/stat')
 }
