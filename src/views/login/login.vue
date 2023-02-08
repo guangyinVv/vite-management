@@ -19,6 +19,7 @@ import { adminLogin } from '@/api'
 import Cookie from 'js-cookie'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { ElNotification } from 'element-plus'
 // 表单
 const ruleForm = reactive({
   username: 'admin',
@@ -46,6 +47,11 @@ const submit = async () => {
         .dispatch('getAdminInfo')
         .then(() => {
           router.push('/home')
+          ElNotification({
+            title: '登录成功！',
+            type: 'success',
+            duration: 3000
+          })
         })
         .catch((e) => {
           console.log(e)

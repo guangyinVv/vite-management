@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { getAdminLists, TableType, updateAdmin } from '@/api'
 import { Ref, ref } from 'vue'
-import { dayjs } from 'element-plus'
+import { dayjs, ElNotification } from 'element-plus'
 import ConfirmForm from './components/confirmForm.vue'
 import Allocation from './components/allocation.vue'
 
@@ -82,6 +82,11 @@ const submitEdit = () => {
     if (data.code === 200) {
       // 如果提交数据成功，重新获取一下数据
       updateCurrentTableData()
+      ElNotification({
+        title: '修改成功！',
+        type: 'success',
+        duration: 3000
+      })
     }
   })
 }

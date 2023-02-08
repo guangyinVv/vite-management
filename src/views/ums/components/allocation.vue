@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { getAdminRoleById, getAllRoleList, RoleListType, updateAdminRole } from '@/api'
+import { ElNotification } from 'element-plus'
 import { Ref, ref, watch } from 'vue'
 const props = defineProps<{
   visible: boolean
@@ -70,7 +71,11 @@ const updateRoleValue = () => {
     updateAdminRole(adminId.value, roleValue.value).then(({ data }) => {
       if (data.code === 200) {
         hide()
-        console.log('成功')
+        ElNotification({
+          title: '修改成功！',
+          type: 'success',
+          duration: 3000
+        })
       }
     })
   }

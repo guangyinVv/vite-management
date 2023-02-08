@@ -1,6 +1,10 @@
 <template>
   <div class="menu nui-scroll">
     <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" :default-active="menusArray" text-color="#fff" unique-opened router>
+      <el-menu-item index="/home">
+        <el-icon><location /></el-icon>
+        <span>首页</span>
+      </el-menu-item>
       <el-sub-menu :index="menu.id + ''" v-for="menu in menus" :key="menu.id">
         <template #title>
           <el-icon><location /></el-icon>

@@ -1,6 +1,7 @@
 <!-- 首页 -->
 <template>
-  <Pie :data="salePie" />
+  <!-- <Pie :data="salePie" /> -->
+  <Map :data="saleMap" />
 </template>
 
 <script setup lang="ts">
@@ -8,6 +9,7 @@ import { getAdminStat } from '@/api'
 import { anyObject } from '@/vite-env'
 import { Ref, ref } from 'vue'
 import Pie from './pie.vue'
+import Map from './map.vue'
 const salePie: Ref<anyObject[]> = ref([])
 const saleMap: Ref<anyObject[]> = ref([])
 getAdminStat().then(({ data: { data } }) => {
